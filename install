@@ -1,0 +1,78 @@
+#!/bin/bash
+
+xcode-select --install
+
+echo "installing homebrew"
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+brew doctor
+brew update
+
+echo "after homebrew is installed update the path"
+echo "export PATH='/usr/local/bin:$PATH'\n" >> ~/.bashrc
+source ~/.bashrc
+
+echo "fix required before we can install rvm / ruby"
+brew install libksba
+
+echo "install rvm / fix gcc / install the latest ruby"
+curl -sSL https://get.rvm.io | bash -s stable --ruby
+
+source ~/.rvm/scripts/rvm
+echo "source ~/.rvm/scripts/rvm" >> ~/.bashrc
+
+
+echo "install nvm for better node version management"
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
+nvm install node
+nvm use node
+
+echo "install the fundamentals"
+brew install postgresql
+brew install mysql
+
+echo "silence rvm when its not the first item on the path"
+touch ~/.rvmrc
+echo rvm_silence_path_mismatch_check_flag=1 >> ~/.rvmrc
+
+echo "finish the postgres setup"
+initdb /usr/local/var/postgres -E utf8
+
+echo "install zsh"
+brew install zsh
+
+echo "change the default shell to zsh"
+chsh -s /bin/zsh
+
+echo "install oh-my-zsh"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+echo "Setting up homebrew-cask"
+brew tap homebrew/cask
+
+echo "install cmd applications"
+brew install gcc
+brew install vim
+
+echo "setup git"
+echo ".idea" >> ~/.gitignore_global
+git config --global core.excludesfile ~/.gitignore_global
+git config --global user.name "James Armstead"
+git config --global user.email james.armstead@hey.com
+
+echo "install desktop applications"
+brew install brave-browser --cask
+brew install iterm2 --cask
+brew install yarn --cask
+brew install sizeup --cask
+Brew install insomnia --cask
+brew install slack --cask
+brew install webstorm --cask
+brew install rubymine --cask
+brew install intellij --cask
+brew install postico --cask
+brew install spotify --cask
+brew install tweetbot --cask
+brew install discord --cask
+
+
+echo "DONE -- run custom-zsh.sh to finish install"
