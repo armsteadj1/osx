@@ -1,0 +1,12 @@
+#!/bin/bash
+
+echo "installing homebrew"
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+brew doctor
+brew update
+
+brew cask install google-chrome
+brew cask install sizeup
+brew cask install slack
+brew cask install cloudapp
+brew cask install google-backup-and-sync
